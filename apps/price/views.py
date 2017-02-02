@@ -1,8 +1,10 @@
 # _*_ coding:utf-8 _*_
 from django.shortcuts import render
+from django.http import HttpResponse #指定返回给用户的类型
 
 from .models import UserMessage
 from .forms import UploadImageForm
+
 
 # Create your views here.
 
@@ -39,6 +41,17 @@ def getform(request):
 
 
     return render(request, 'message-form.html',{})
+
+def edit_favorites(request):
+    if request.is_ajax():
+        message = "Yes, AJAX!"
+    else:
+        message = "Not Ajax"
+    return HttpResponse(message)
+
+    #return render(request, 'index.html', {})
+
+
 
 
 
