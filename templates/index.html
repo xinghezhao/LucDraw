@@ -16,7 +16,7 @@
         <img src="{% static 'img/1.jpg' %}" alt="">
     </div>
 	<ul id="wrap">
-		<li><img src="{% static 'img/1.jpg' %}" alt="" /></li>
+		<li><img src="/media/image/2017/01/mysql_n5q2iYD.jpg" alt="" /></li>
 		<li><img src="{% static 'img/2.jpg' %}" alt="" /></li>
         <li><img src="{% static 'img/3.jpg' %}" alt="" /></li>
 		<li><img src="{% static 'img/4.jpg' %}" alt="" /></li>
@@ -48,32 +48,68 @@
 		<li><img src="{% static 'img/3.jpg' %}" alt="" /></li>
 	</ul>
 
-    <form method='post' id ='test'>
-     <input type="hidden" value="video34" />
-    <input type='submit' value='Test button'/>
-
-    <div id = 'message'>Initial text</div>
-
-</form>
+{#    <form method='post' id ='test' style="margin-top: 500px;">#}
+{#     <input type="hidden" value="video34" />#}
+{#    <input type='submit' value='Test button'/>#}
+{##}
+{#    <div id = 'message'>Initial text</div>#}
+{#    </form>#}
+<div id = 'message' style="margin-top: 500px;">Initial text</div>
 </body>
 </html>
 
 <script>
- $(document).ready(function(){
-    $("#test").submit(function(event){
+$(document).ready(function() {
+
+   $("#message").click(function(){
         $.ajax({
-             type:"POST",
-             url:"/edit_favorites/",
+             cache: false,
+             type: "POST",
+             url:{% url 'edit_favorites' %},
              data: {
                     'video': $('#test').val() // from form
                     },
-             success: function(){
-                 $('#message').html("<h2>Contact Form Submitted!</h2>")
-             }
+             async:true,
+            beforeSend:function(xhr, settings){
+                xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+            },
+            success: function(data){
+                 console.log(data);
+                 var html = '';
+                 html += '<ul id="wrap"><li><img src="/media/image/2017/01/mysql.jpg" alt="" /></li></ul>'
+
+                 $('#wrap').html(html)
+            }
         });
-    });
+        return false; //<---- move it here
+   });
+
 });
 </script>
+
+{#<script>#}
+{#$(document).ready(function() {#}
+{#   $("#test").submit(function(event){#}
+{#        $.ajax({#}
+{#             cache: false,#}
+{#             type: "GET",#}
+{#             url:{% url 'edit_favorites' %},#}
+{#             data: {#}
+{#                    'video': $('#test').val() // from form#}
+{#                    },#}
+{#             async:true,#}
+{#            beforeSend:function(xhr, settings){#}
+{#                xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");#}
+{#            },#}
+{#             success: function(){#}
+{#                 $('#message').html("<h2>Contact Form Submitted!</h2>")#}
+{#             }#}
+{#        });#}
+{#        return false; //<---- move it here#}
+{#   });#}
+{##}
+{#});#}
+{#</script>#}
 
 <script type="text/javascript">
 	var box = document.getElementById('wrap');
