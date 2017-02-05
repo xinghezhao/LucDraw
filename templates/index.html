@@ -16,8 +16,9 @@
         <img src="{% static 'img/1.jpg' %}" alt="">
     </div>
 	<ul id="wrap">
-		<li><img src="/media/image/2017/01/mysql_n5q2iYD.jpg" alt="" /></li>
-		<li><img src="{% static 'img/2.jpg' %}" alt="" /></li>
+
+        <li><img src="" alt=""></li>
+		<li><img src="/media/image/2017/01/mysql.jpg" alt="" /></li>
         <li><img src="{% static 'img/3.jpg' %}" alt="" /></li>
 		<li><img src="{% static 'img/4.jpg' %}" alt="" /></li>
 		<li><img src="{% static 'img/5.jpg' %}" alt="" /></li>
@@ -60,8 +61,8 @@
 
 <script>
 $(document).ready(function() {
-
    $("#message").click(function(){
+
         $.ajax({
              cache: false,
              type: "POST",
@@ -74,11 +75,14 @@ $(document).ready(function() {
                 xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
             },
             success: function(data){
-                 console.log(data);
-                 var html = '';
-                 html += '<ul id="wrap"><li><img src="/media/image/2017/01/mysql.jpg" alt="" /></li></ul>'
+                 console.log(data.length);
+                 var domlist = $('.img1')
+                console.log(domlist.length)
 
-                 $('#wrap').html(html)
+                  for (var i=0;i<data.length;i++){
+                    console.log(data[i]);
+                    $('#wrap li img').attr('src',data[i])
+                 }
             }
         });
         return false; //<---- move it here
